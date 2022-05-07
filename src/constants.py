@@ -14,3 +14,6 @@ EXPECTED_STATUS = {
     'W': ['Withdrawn'],
     '': ['Draft', 'Active'],
 }
+HEADER_WHATS_NEW = ('Ссылка на статью', 'Заголовок', 'Редактор, Автор')
+HEADER_LATEST = ('Ссылка на документацию', 'Версия', 'Статус')
+HEADER_PEP = ('Статус', 'Количество')

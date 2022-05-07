@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from configs import configure_argument_parser, configure_logging
-from constants import BASE_DIR, EXPECTED_STATUS, MAIN_DOC_URL, PEP_URL
+from constants import (BASE_DIR, EXPECTED_STATUS, HEADER_LATEST, HEADER_PEP,
+                       HEADER_WHATS_NEW, MAIN_DOC_URL, PEP_URL)
 import logging
 from outputs import control_output
 import re
@@ -15,7 +16,7 @@ def whats_new(session):
 
     response = get_response(session, whats_new_url)
     if response is None:
-        return
+        return None
 
     soup = BeautifulSoup(response.text, features='lxml')
     main_div = find_tag(soup, 'section', attrs={'id': 'what-s-new-in-python'})
@@ -24,7 +25,7 @@ def whats_new(session):
     sections_by_python = div_with_ul.find_all('li',
                                               attrs={'class': 'toctree-l1'})
 
-    results = [('Ссылка на статью', 'Заголовок', 'Редактор, Автор')]
+    results = [HEADER_WHATS_NEW]
 
     for section in tqdm(sections_by_python):
         version_a_tag = section.find('a')
@@ -50,7 +51,7 @@ def whats_new(session):
 def latest_versions(session):
     response = get_response(session, MAIN_DOC_URL)
     if response is None:
-        return
+        return None
 
     soup = BeautifulSoup(response.text, 'lxml')
 
@@ -64,7 +65,7 @@ def latest_versions(session):
     else:
         raise Exception('Ничего не нашлось')
 
-    results = [('Ссылка на документацию', 'Версия', 'Статус')]
+    results = [HEADER_LATEST]
     pattern = r'Python (?P<version>\d\.\d+) \((?P<status>.*)\)'
     for a_tag in a_tags:
         link = a_tag['href']
@@ -85,7 +86,7 @@ def download(session):
     downloads_url = urljoin(MAIN_DOC_URL, 'download.html')
     response = get_response(session, downloads_url)
     if response is None:
-        return
+        return None
 
     soup = BeautifulSoup(response.text, 'lxml')
 
@@ -114,13 +115,13 @@ def download(session):
 def pep(session):
     response = get_response(session, PEP_URL)
     if response is None:
-        return
+        return None
 
     soup = BeautifulSoup(response.text, 'lxml')
     num_index = find_tag(soup, 'section', attrs={'id': 'numerical-index'})
     peps = num_index.find_all('td', attrs={'class': 'num'})
 
-    results = [('Статус', 'Количество')]
+    results = [HEADER_PEP]
     logging.info('Несовпадающие статусы:')
 
     status_counts = {}
