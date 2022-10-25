@@ -1,6 +1,11 @@
-# Парсер pep
+# Парсер PEP
 
 Парсер обрабатывает официальный сайт с документацией Python
+
+## Технологии
+
+* Python
+* Beautiful Soup
 
 ## Режимы работы
 
@@ -11,6 +16,17 @@ latest-versions - Вывод информации о версиях Python: но
 download - Скачивание архива с документацией Python
 
 pep - Вывод информации о количестве PEP с разными статусами
+
+## Подготовка к локальному запуску
+
+* Клонируем репозиторий на локальный компьютер ```git clone https://github.com/nmutovkin/bs4_parser_pep.git```
+* ```cd bs4_parser_pep```
+* Создаем и активируем виртуальное окружение python
+    ```
+    python -m venv venv
+    source venv/bin/activate
+    ```
+* Устанавливаем зависимости ```pip install -r requirements.txt```
 
 ## Запуск парсера и аргументы
 
